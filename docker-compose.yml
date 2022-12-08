@@ -1,0 +1,40 @@
+version: "3.6"
+
+volumes:
+  postgres_data:
+
+networks:
+  bubble:
+    external: true
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: app
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    command: npm run dev
+    networks:
+      - bubble
+
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=application_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bubble
