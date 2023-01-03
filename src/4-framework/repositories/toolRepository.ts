@@ -3,7 +3,7 @@ import { injectable, inject } from "inversify";
 import { IToolRepository } from "@business/repository/toolRepository";
 import { IToolEntity } from "@domain/entities/toolEntity";
 import { IError } from "@shared/iError";
-import { Either, right } from "@shared/either";
+import { Either, left, right } from "@shared/either";
 import { TOOL_DELETED_SUCCESSFULY } from "@business/modules/const/tool/messages";
 
 const prisma = new PrismaClient();
@@ -16,17 +16,24 @@ export class ToolRepository implements IToolRepository {
     this.prismaClient = prisma;
   }
   async create(userEntity: IToolEntity): Promise<Either<IError, IToolEntity>> {
-    const tool = await this.prismaClient.tool.create({
-      data: {
-        userId: userEntity.userId,
-        title: userEntity.title,
-        link: userEntity.link,
-        description: userEntity.description,
-        tags: userEntity.tags,
-      },
-    });
+    try {
+      const tool = await this.prismaClient.tool.create({
+        data: {
+          userId: userEntity.userId,
+          title: userEntity.title,
+          link: userEntity.link,
+          description: userEntity.description,
+          tags: userEntity.tags,
+        },
+      });
 
-    return right(tool);
+      return right(tool);
+    } catch (error) {
+      console.log({ error });
+      const updatedError = error as any;
+
+      return left(updatedError);
+    }
   }
 
   async delete(id: number): Promise<Either<IError, string>> {

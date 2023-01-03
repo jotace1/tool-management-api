@@ -1,5 +1,5 @@
 import { OutputCreateToolDto } from "@business/dto/tool/createToolDto";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { Validatable } from "../abstractValidatable";
 
 export class InputCreateTool extends Validatable<InputCreateTool> {
@@ -20,7 +20,7 @@ export class InputCreateTool extends Validatable<InputCreateTool> {
   tags!: string[];
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   userId!: number;
 }
 

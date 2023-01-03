@@ -8,23 +8,6 @@ networks:
     external: true
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: base
-    volumes:
-      - ./src:/home/node/app/src
-      - ./nodemon.json:/home/node/app/nodemon.json
-    container_name: app
-    expose:
-      - "8080"
-    ports:
-      - "8080:8080"
-    command: npm run dev
-    networks:
-      - bubble
-
   postgres:
     image: postgres:13
     restart: always
@@ -36,5 +19,18 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - bubble
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+    container_name: app
+    environment:
+      - DATABASE_URL=postgres://postgres:docker@postgres:5432/application_db
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    command: npm run dev

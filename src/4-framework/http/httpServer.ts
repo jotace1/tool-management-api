@@ -1,5 +1,6 @@
 import AbstractHandler from "@framework/handlers/abstractHandler";
 import express from "express";
+import bodyParser from "body-parser";
 
 export interface HttpServer {
   register(method: string, url: string, handler: AbstractHandler): void;
@@ -17,6 +18,7 @@ export class ExpressHttpServer implements HttpServer {
 
   constructor() {
     this.app = express();
+    this.app.use(bodyParser.json());
   }
 
   register(method: string, url: string, handler: AbstractHandler): void {
