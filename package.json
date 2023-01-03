@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_PATH=./build node build/shared/infra/http/server.js",
     "build": "tsc -p .",
-    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts"
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --exit-child --ignore-watch node_modules src/shared/infra/http/server.ts"
   },
   "keywords": [],
   "author": "",

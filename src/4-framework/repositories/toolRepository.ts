@@ -29,7 +29,6 @@ export class ToolRepository implements IToolRepository {
 
       return right(tool);
     } catch (error) {
-      console.log({ error });
       const updatedError = error as any;
 
       return left(updatedError);
@@ -59,12 +58,18 @@ export class ToolRepository implements IToolRepository {
   }
 
   async listByUserId(userId: number): Promise<Either<IError, IToolEntity[]>> {
-    const tools = await this.prismaClient.tool.findMany({
-      where: {
-        userId: userId,
-      },
-    });
+    try {
+      const tools = await this.prismaClient.tool.findMany({
+        where: {
+          userId: userId,
+        },
+      });
 
-    return right(tools);
+      return right(tools);
+    } catch (error) {
+      const updatedError = error as any;
+
+      return left(updatedError);
+    }
   }
 }

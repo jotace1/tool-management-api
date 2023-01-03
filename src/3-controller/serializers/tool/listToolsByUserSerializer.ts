@@ -5,7 +5,7 @@ import { Validatable } from "../abstractValidatable";
 export class InputListToolsByUser extends Validatable<InputListToolsByUser> {
   @IsNotEmpty()
   @IsString()
-  userId!: number;
+  userId!: string;
 }
 
 export type OutputListToolsByUser = OutputListToolsByUserDto;

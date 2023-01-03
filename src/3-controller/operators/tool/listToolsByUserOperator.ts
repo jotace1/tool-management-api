@@ -22,7 +22,9 @@ export class ListToolsByUserOperator extends AbstractOperator<
   protected async run(
     input: InputListToolsByUser
   ): Promise<OutputListToolsByUser> {
-    const tools = await this.listToolsByUserUseCase.exec(input);
+    const tools = await this.listToolsByUserUseCase.exec({
+      userId: Number(input.userId),
+    });
 
     if (tools.isLeft()) {
       return left(tools.value);

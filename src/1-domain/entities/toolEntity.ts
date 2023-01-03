@@ -1,4 +1,4 @@
-import { userIdRequiredError } from "@domain/errors/reminder";
+import { userIdRequiredError } from "@domain/errors/user";
 import { left, Either, right } from "../../shared/either";
 import { IError } from "../../shared/iError";
 import { AbstractEntity } from "./abstractEntity";

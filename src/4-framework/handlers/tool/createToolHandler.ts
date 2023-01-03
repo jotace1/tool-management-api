@@ -11,13 +11,11 @@ export class CreateTool implements AbstractHandler {
   async run(request: Request, response: Response) {
     try {
       const createToolOperator = container.get(CreateToolOperator);
-      console.log(process.env.DATABASE_URL);
       const input = new InputCreateTool(request.body);
 
       const tool = await createToolOperator.exec(input);
 
       if (tool.isLeft()) {
-        console.log("caindo aqui???");
         return response.status(400).json(tool.value);
       }
 
