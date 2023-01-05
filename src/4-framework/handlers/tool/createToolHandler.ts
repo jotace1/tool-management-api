@@ -3,7 +3,6 @@ import { InputCreateTool } from "@controller/serializers/tool/createToolSerializ
 import { container } from "@shared/ioc/container";
 import { Request, Response } from "express";
 import { injectable } from "inversify";
-import { env } from "process";
 import AbstractHandler from "../abstractHandler";
 
 @injectable()

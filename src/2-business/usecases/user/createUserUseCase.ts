@@ -27,6 +27,9 @@ export class CreateUserUseCase
       return left(userEntity.value);
     }
 
+    // TODO: Verify if user already exists
+    // TODO: Hash user password
+
     const user = await this.userRepository.create(userEntity.value.export());
 
     if (user.isLeft()) {

@@ -15,15 +15,15 @@ export class ToolRepository implements IToolRepository {
   public constructor() {
     this.prismaClient = prisma;
   }
-  async create(userEntity: IToolEntity): Promise<Either<IError, IToolEntity>> {
+  async create(toolEntity: IToolEntity): Promise<Either<IError, IToolEntity>> {
     try {
       const tool = await this.prismaClient.tool.create({
         data: {
-          userId: userEntity.userId,
-          title: userEntity.title,
-          link: userEntity.link,
-          description: userEntity.description,
-          tags: userEntity.tags,
+          userId: toolEntity.userId,
+          title: toolEntity.title,
+          link: toolEntity.link,
+          description: toolEntity.description,
+          tags: toolEntity.tags,
         },
       });
 
