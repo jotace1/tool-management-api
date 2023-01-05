@@ -1,0 +1,36 @@
+version: "3.6"
+
+volumes:
+  postgres_data:
+
+networks:
+  bubble:
+    external: true
+
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=application_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+    container_name: app
+    environment:
+      - DATABASE_URL=postgres://postgres:docker@postgres:5432/application_db
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    command: npm run dev

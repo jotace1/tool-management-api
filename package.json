@@ -1,0 +1,36 @@
+{
+  "name": "tool-management-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_PATH=./build node build/shared/infra/http/server.js",
+    "build": "tsc -p .",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --exit-child --ignore-watch node_modules src/shared/infra/http/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.7.17",
+    "@types/validator": "^13.7.10",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.7.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.7.1",
+    "@types/inversify": "^2.0.33",
+    "body-parser": "^1.20.1",
+    "class-validator": "^0.13.2",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.1",
+    "tscpaths": "^0.0.9"
+  }
+}
