@@ -7,7 +7,13 @@ export const userNotFoundError: IError = {
 };
 
 export const passwordDoesNotMatch: IError = {
-  code: "PSWRD-001",
+  code: "USR-002",
   message: "Your password does not match",
   shortMessage: "password_not_match",
+};
+
+export const userAlreadyExistsError: IError = {
+  code: "USR-003",
+  message: "User already exists in the database",
+  shortMessage: "user_already_exists",
 };

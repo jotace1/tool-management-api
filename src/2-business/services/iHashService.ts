@@ -7,6 +7,6 @@ export interface IHashService {
   passwordsMatch(
     oldPassword: string,
     newPassword: string
-  ): Either<IError, boolean>;
-  hashPassword(password: string): Either<IError, void>;
+  ): Promise<Either<IError, boolean>>;
+  hashPassword(password: string): Promise<Either<IError, string>>;
 }
