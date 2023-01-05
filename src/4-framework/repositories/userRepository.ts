@@ -6,6 +6,7 @@ import { IError } from "@shared/iError";
 import { Either, left, right } from "@shared/either";
 import { IUserRepository } from "@business/repository/userRepository";
 import { IUserEntity } from "@domain/entities/userEntity";
+import { userNotFoundError } from "@business/modules/errors/user";
 
 const prisma = new PrismaClient();
 
@@ -23,6 +24,24 @@ export class UserRepository implements IUserRepository {
           email: userEntity.email,
           password: userEntity.password,
           name: userEntity.name,
+        },
+      });
+
+      return right(user);
+    } catch (error) {
+      const updatedError = error as any;
+
+      return left(updatedError);
+    }
+  }
+
+  async findByEmail(
+    email: string
+  ): Promise<Either<IError, IUserEntity | null>> {
+    try {
+      const user = await this.prismaClient.user.findUnique({
+        where: {
+          email: email,
         },
       });
 

@@ -4,4 +4,10 @@ import { IError } from "@shared/iError";
 
 export type InputCreateUserDto = IUserEntity;
 
-export type OutputCreateUserDto = Either<IError, IUserEntity>;
+export interface UserOutputDto {
+  id?: number | null;
+  name: string | null;
+  email: string;
+}
+
+export type OutputCreateUserDto = Either<IError, UserOutputDto>;

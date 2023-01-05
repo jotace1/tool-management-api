@@ -3,7 +3,8 @@ import { IError } from "../../shared/iError";
 import { AbstractEntity } from "./abstractEntity";
 
 export interface IUserEntity {
-  name: string | null;
+  id?: number;
+  name: string;
   email: string;
   password: string;
 }

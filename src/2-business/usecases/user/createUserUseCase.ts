@@ -5,11 +5,17 @@ import { UserEntity } from "@domain/entities/userEntity";
 import {
   InputCreateUserDto,
   OutputCreateUserDto,
+  UserOutputDto,
 } from "@business/dto/user/createUserDto";
 import {
   IUserRepository,
   IUserRepositoryToken,
 } from "@business/repository/userRepository";
+import {
+  IHashService,
+  IHashServiceToken,
+} from "@business/services/iHashService";
+import { userAlreadyExistsError } from "@business/modules/errors/user";
 
 @injectable()
 export class CreateUserUseCase
@@ -17,18 +23,34 @@ export class CreateUserUseCase
 {
   public constructor(
     @inject(IUserRepositoryToken)
-    private userRepository: IUserRepository
+    private userRepository: IUserRepository,
+    @inject(IHashServiceToken) private hashService: IHashService
   ) {}
 
   async exec(input: InputCreateUserDto): Promise<OutputCreateUserDto> {
+    const existentUser = await this.userRepository.findByEmail(input.email);
+
+    if (existentUser.isLeft()) {
+      return left(existentUser.value);
+    }
+
+    if (existentUser.value) {
+      return left(userAlreadyExistsError);
+    }
+
+    const hashedPassword = await this.hashService.hashPassword(input.password);
+
+    if (hashedPassword.isLeft()) {
+      return left(hashedPassword.value);
+    }
+
+    input.password = hashedPassword.value;
+
     const userEntity = UserEntity.create(input);
 
     if (userEntity.isLeft()) {
       return left(userEntity.value);
     }
-
-    // TODO: Verify if user already exists
-    // TODO: Hash user password
 
     const user = await this.userRepository.create(userEntity.value.export());
 
@@ -36,6 +58,12 @@ export class CreateUserUseCase
       return left(user.value);
     }
 
-    return right(user.value);
+    const output: UserOutputDto = {
+      id: user.value.id,
+      name: user.value.name,
+      email: user.value.email,
+    };
+
+    return right(output);
   }
 }
